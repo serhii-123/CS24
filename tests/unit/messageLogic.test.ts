@@ -66,18 +66,3 @@ describe("sanitizeContent", () => {
     expect(sanitizeContent(safeContent)).toBe(safeContent);
   });
 });
-
-// For homework, you can assign tasks such as:
-
-// Extend Validation:
-
-// Add additional rules (e.g., check that sender and recipient are not the same, or disallow certain words).
-// Write unit tests covering these new rules.
-// Enhance Formatting:
-
-// Update formatMessageForDisplay to include additional information, such as a message status (e.g., “sent” or “read”).
-// Create tests to verify the updated output format.
-// Content Sanitization:
-
-// Improve the sanitizeContent function to handle additional edge cases (e.g., handling quotes or other special characters).
-// Write tests for various content strings to ensure they are sanitized correctly.

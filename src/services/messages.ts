@@ -16,7 +16,6 @@ export async function createMessage(
     })
     .returning();
 
-  // Assuming the ORM returns an array with one element
   return result[0];
 }
 
