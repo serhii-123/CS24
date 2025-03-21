@@ -32,3 +32,14 @@ messagesRoutes.post("/", async (c) => {
 });
 
 export default messagesRoutes;
+
+// GET /messages – retrieve all messages
+
+// validate data from frontend
+// db -> SELECT * FROM messages
+// <-
+
+// POST /messages – create a new message
+// validate messages, validate that users with such ids exist,
+// insert into users values()
+// <-

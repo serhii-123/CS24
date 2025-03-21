@@ -13,6 +13,7 @@ export function validateMessageInput(
     return { valid: false, error: "Content cannot be empty" };
   if (content.length > 500)
     return { valid: false, error: "Content is too long" };
+
   return { valid: true };
 }
 

@@ -10,5 +10,5 @@
 
 ## Content Sanitization(*):
 
-1. Improve the sanitizeContent function to handle additional edge cases (e.g., handling quotes or other special characters).
+1. Improve the sanitizeContent function to handle additional edge cases (e.g., handling quotes or other special characters, ~`').
 2. Write tests for various content strings to ensure they are sanitized correctly.
