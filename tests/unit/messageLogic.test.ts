@@ -35,6 +35,21 @@ describe("validateMessageInput", () => {
     expect(result.valid).toBe(false);
     expect(result.error).toBe("Content is too long");
   });
+
+  it('should return an error for content that contains disallowed word', () => {
+    const content = 'Hello cRap';
+    const result = validateMessageInput(1, 2, content);
+
+    expect(result.valid).toBe(false);
+    expect(result.error).toBe('Content contains disallowed word');
+  });
+
+  it('should return an error because of the same sender and partipient ids', () => {
+    const result = validateMessageInput(1, 1, 'Hello');
+    
+    expect(result.valid).toBe(false);
+    expect(result.error).toBe('Sender and recipient ids cannot be the same');
+  })
 });
 
 describe("formatMessageForDisplay", () => {
@@ -44,6 +59,7 @@ describe("formatMessageForDisplay", () => {
       senderName: "Alice",
       recipientName: "Bob",
       content: "Hi Bob!",
+      status: 'read' as ('read' | 'sent'),
       created_at: new Date("2025-03-21T10:00:00"),
     };
     const formatted = formatMessageForDisplay(message);
@@ -52,17 +68,46 @@ describe("formatMessageForDisplay", () => {
     expect(formatted).toContain("Bob");
     expect(formatted).toContain("Hi Bob!");
   });
+  it('should return a certain message', () => {
+    const message = {
+      id: 1,
+      senderName: 'Alex',
+      recipientName: 'Sashko',
+      content: 'Wsp bro',
+      status: 'sent' as ('read' | 'sent'),
+      created_at: new Date('2025-03-21T10:00:00'),
+    };
+    const formatted: string = formatMessageForDisplay(message);
+
+    expect(formatted).toContain('Alex');
+    expect(formatted).toContain('Wsp bro');
+    expect(formatted).toContain('Status: sent');
+  })
 });
 
 describe("sanitizeContent", () => {
   it("should replace < and > with safe HTML entities", () => {
     const unsafeContent = '<script>alert("xss")</script>';
     const safeContent = sanitizeContent(unsafeContent);
-    expect(safeContent).toBe('&lt;script&gt;alert("xss")&lt;/script&gt;');
+    expect(safeContent).toBe('&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;');
   });
 
   it("should leave safe content unchanged", () => {
     const safeContent = "Hello world!";
     expect(sanitizeContent(safeContent)).toBe(safeContent);
   });
+
+  it('should replace ~ and \' with safe HTML entities and unicode code', () => {
+    const unsafeContent: string = "This cost ~300 bucks, some 'thing'";
+    const safeContent: string = sanitizeContent(unsafeContent);
+
+    expect(safeContent).toBe('This cost &#126;300 bucks, some &apos;thing&apos;')
+  });
+
+  it('should replace " with safe HTML entities', () => {
+    const unsafeContent: string = 'Yeah, it looks "amazing"';
+    const safeContent: string = sanitizeContent(unsafeContent);
+
+    expect(safeContent).toBe('Yeah, it looks &quot;amazing&quot;');
+  })
 });
