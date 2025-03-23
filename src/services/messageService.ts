@@ -58,7 +58,6 @@ export function sanitizeContent(content: string): string {
     const re: RegExp = new RegExp(s, 'g');
     const htmlEntity: string = encodeHTML(s);
 
-    console.log(htmlEntity);
     result = result.replace(re, htmlEntity);
   }
 
